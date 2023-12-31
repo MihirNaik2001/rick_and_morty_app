@@ -1,0 +1,1 @@
+Start the server by running node index.js (make sure you are inside rick_and_morty_server folder)
