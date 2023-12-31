@@ -3,7 +3,6 @@ const router = express.Router();
 const axios = require("axios");
 const { json } = require("body-parser");
 
-//ROUTE 1: Get all the notes using:GET "/api/auth/fetchallnotes". Login required
 router.get("/list_characters", async (req, res) => {
   try {
     const { status, gender, species, name, page } = req.query;
@@ -18,7 +17,7 @@ router.get("/list_characters", async (req, res) => {
     const response = await axios.get(
       `https://rickandmortyapi.com/api/character/?${queryParams.toString()}`
     );
-    // // Extract the data from the response
+
     const apiData = response.data;
 
     const { info, results } = apiData;
@@ -52,7 +51,7 @@ router.get("/get_character", async (req, res) => {
     const response = await axios.get(
       `https://rickandmortyapi.com/api/character/${character_id}`
     );
-    // // Extract the data from the response
+
     const apiData = response.data;
     const { id, name, status, species, type, gender, origin, location, image } = apiData;
     const transformedData = {
@@ -67,7 +66,7 @@ router.get("/get_character", async (req, res) => {
       image,
     };
 
-    // Sending the modified response
+
     res.json(transformedData);
   } catch (error) {
     console.error(error.message);

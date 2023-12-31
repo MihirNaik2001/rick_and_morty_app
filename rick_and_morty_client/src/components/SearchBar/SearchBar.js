@@ -14,7 +14,7 @@ function SearchBar({ search, setSearch, filter, setFilter }) {
     "Unknown",
     "Robot",
     "Planet",
-  ]; // api
+  ];
   const gender = ["Male", "Female", "Genderless", "Unknown"];
 
   const [showFilter, setShowFilter] = useState(false);
@@ -35,7 +35,6 @@ function SearchBar({ search, setSearch, filter, setFilter }) {
 
   return (
     <div className="flex flex-col items-center">
-      {/* <h1 className="text-3xl text-blue-500 m-5">Characters</h1> */}
       <div className="flex flex-center">
         <input
           className="border border-blue-500 focus:border-blue-700 border-solid m-5"
