@@ -26,17 +26,17 @@ function CardBox({ setShowDetail, filter, setFilter, setCardId }) {
   }, [filter]);
 
   const handlePrevPage = () => {
-    setFilter({ ...filter, page: filter.page - 1 });
+    setFilter(prev => ({...prev, page: Math.max(prev.page - 1,1)}))
   }
 
   const handleNextPage = () => {
-    setFilter({ ...filter, page: filter.page + 1 });
+    setFilter(prev => ({...prev, page: Math.min(prev.page + 1,cardInfo.pages)}))
   }
 
   const handleJumpToPage = _debounce((event) => {
     const pageNumber = parseInt(event.target.value);
     if (!isNaN(pageNumber) && pageNumber > 0 && pageNumber <= cardInfo.pages) {
-      setFilter({ ...filter, page: pageNumber });
+      setFilter(prev => ({...prev, page: pageNumber}))
     }
   }, 500);
 

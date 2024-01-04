@@ -8,7 +8,6 @@ import CardDetail from './components/Card/CardDetail.js';
 import { useState } from 'react';
 
 function App() {
-  const [search, setSearch] = useState("");
   const [showDetail, setShowDetail] = useState(false);
   const [cardId, setCardId] = useState(null);
 
@@ -23,11 +22,10 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      {!showDetail && <div>
-        <SearchBar search={search} setSearch={setSearch} setFilter={setFilter} filter={filter} />
+     {!showDetail ? <div>
+        <SearchBar setFilter={setFilter} filter={filter} />
         <CardBox setShowDetail={setShowDetail} filter={filter} setFilter={setFilter} setCardId={setCardId} />
-      </div> }
-      {showDetail && <CardDetail setShowDetail={setShowDetail} cardId={cardId}/>}
+      </div> : <CardDetail setShowDetail={setShowDetail} cardId={cardId}/>}
 
     </div>
   );

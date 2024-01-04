@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import { Button,Box, Card, TextField, Typography, Divider} from "@mui/material";
+import _debounce from 'lodash/debounce'
 
-function SearchBar({ search, setSearch, filter, setFilter }) {
-  const status = ["Alive", "Dead", "Unknown"]; // api
+function SearchBar({ filter, setFilter }) {
+  const status = ["Alive", "Dead", "Unknown"];
   const species = [
     "Human",
     "Alien",
@@ -21,15 +22,11 @@ function SearchBar({ search, setSearch, filter, setFilter }) {
 
   const [showFilter, setShowFilter] = useState(false);
 
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      console.log(search);
-    }, 3000);
-
-    setFilter({ ...filter, name: search, page: 1 });
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [search]);
+  const handleSearch = _debounce((event)=>{
+    if(filter.name !== event.target.value){
+      setFilter({ ...filter, name: event.target.value, page: 1 });
+    }
+  },500);
 
   const applyFilter = () => {
     setShowFilter(!showFilter);
@@ -38,7 +35,7 @@ function SearchBar({ search, setSearch, filter, setFilter }) {
   return (
     <div className="flex flex-col items-center">
       <div className="flex flex-center">
-        <TextField value={search} onChange={(e) => setSearch(e.target.value)} sx={{py:1, px:2, my:'auto'}} size="small"/>
+        <TextField onChange= {handleSearch} sx={{py:1, px:2, my:'auto'}} size="small"/>
         <div class="relative inline-block text-left m-5">
           <div className="flex flex-row" style={{ display: 'flex', alignItems: 'center' }}>
             <Button
