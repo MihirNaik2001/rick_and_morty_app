@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
       res.status(400).json({ error: 'Invalid ID: ID must be an integer' });
     }
     const response = await axios.get(
-      `https://rickandmortyapi.com/api/character/${character_id}`
+      `${process.env.RICK_AND_MORTY_BASE_URL}/api/character/${character_id}`
     );
 
     const apiData = response.data;

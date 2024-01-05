@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
       species,
     });
     const response = await axios.get(
-      `https://rickandmortyapi.com/api/character/?${queryParams.toString()}`
+      `${process.env.RICK_AND_MORTY_BASE_URL}/api/character/?${queryParams.toString()}`
     );
 
     const apiData = response.data;

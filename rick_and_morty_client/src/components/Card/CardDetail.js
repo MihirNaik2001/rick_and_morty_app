@@ -11,16 +11,22 @@ import CategoryIcon from '@mui/icons-material/Category';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import { BASE_URL} from '../../constants.js';
+import CircularProgress from '@mui/material/CircularProgress';
+
 const CardDetail = ({ setShowDetail, cardId }) => {
   const [object, setObject] = useState({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:5001/get_character', { params: { id: cardId } })
+    axios.get(`${BASE_URL}/get_character`, { params: { id: cardId } })
       .then((res) => {
         setObject(res.data);
+        setShowLoader(false);
       })
       .catch((error) => {
+        setShowLoader(false);
         setOpenSnackbar(true);
         setObject({})
       });
@@ -32,7 +38,10 @@ const CardDetail = ({ setShowDetail, cardId }) => {
         <Alert onClose={() => { setOpenSnackbar(false) }} severity="error">
           <Typography>Sorry, Please try again later</Typography>
         </Alert>
-      </Snackbar>
+      </Snackbar>{
+        showLoader ? <Box marginTop={'30vh'} sx={{ display: 'flex' , alignItems: 'center', justifyContent: 'center'}}>
+        <CircularProgress />
+      </Box> :
       <div
         className="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover"
         style={{
@@ -79,7 +88,7 @@ const CardDetail = ({ setShowDetail, cardId }) => {
           </Grid>
 
         </Grid>
-      </div>
+      </div>}
     </>
   );
 };

@@ -3,21 +3,25 @@ import axios from "axios";
 import _debounce from 'lodash/debounce';
 import { Button, Typography, Alert, Snackbar,TextField, Box, Grid } from "@mui/material";
 import Card from "./Card.js";
+import { BASE_URL} from '../../constants.js'
+import CircularProgress from '@mui/material/CircularProgress';
 
 function CardBox({ setShowDetail, filter, setFilter, setCardId }) {
   const [cardItems, setCardItems] = useState([]);
   const [cardInfo, setInfo] = useState({});
   const [openSnackbar,setOpenSnackbar] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
   useEffect(() => {
     axios
-      .get("http://localhost:5001/list_characters", { params: filter })
+      .get(`${BASE_URL}/list_characters`, { params: filter })
       .then((res) => {
         setInfo({ curr_page: res.data.curr_page, pages: res.data.pages });
-        setCardItems(() => [...res.data.results]);
+        setCardItems(res.data.results);
         setOpenSnackbar(false);
+        setShowLoader(false);
       })
       .catch((error) => {
-
+        setShowLoader(false);
         setInfo({curr_page:'1',pages:1})
         setCardItems([]);
         setOpenSnackbar(true);
@@ -72,12 +76,13 @@ function CardBox({ setShowDetail, filter, setFilter, setCardId }) {
       </Grid>
 
       <div className="flex flex-wrap justify-around">
-        {cardItems.map((card) => {
+        {showLoader ? <CircularProgress /> : cardItems.map((card) => {
           return (
             <Card
               setShowDetail={setShowDetail}
               card={card}
               setCardId={setCardId}
+              key={card.id}
             />
           );
         })}
